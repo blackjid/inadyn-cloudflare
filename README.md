@@ -49,4 +49,18 @@ Go to your unifi controller Dynamic Dns section and setup the following
 
 > Note: you might need to escape an extra slash between the hostname of your worker and the path due to a bug in the controller ui.
 > `dyndns.<worker-subdomain>.workers.dev/\/update?hostname=%h&ip=%i`
-> At least as of UDM controller version 6.1.71 you no longer need this
+> At least as of UDM controller version 6.1.71 you no longer need this 
+
+## Debugging
+
+You can login into you UnifiOS terminal and run the following command to se how the configuration is working.
+
+```
+inadyn -1 -l debug -n -f /run/inadyn.conf
+```
+
+You can also look at the logs from the background process from the UDM
+
+```
+cat /var/log/messages | grep inadyn
+```
