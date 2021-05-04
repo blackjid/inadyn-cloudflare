@@ -45,6 +45,8 @@ Go to your unifi controller Dynamic Dns section and setup the following
 - `hostname`: the name of the record you want to update (e.g. `subdomain.mydomain.com`)
 - `username`: the name of the zone where the record is defined. (e.g. `mydomain.com`)
 - `password`: a Cloudflare api token with `dns:edit` and `zone:read` permissions
-- `server`: the Cloudflare Worker DNS plus the path `dyndns.<worker-subdomain>.workers.dev/\/update?hostname=%h&ip=%i`
+- `server`: the Cloudflare Worker DNS plus the path `dyndns.<worker-subdomain>.workers.dev/update?hostname=%h&ip=%i`
 
-> Note: you need the escaped extra slash between the hostname of your worker and the path due to a bug in the controller ui.
+> Note: you might need to escape an extra slash between the hostname of your worker and the path due to a bug in the controller ui.
+> `dyndns.<worker-subdomain>.workers.dev/\/update?hostname=%h&ip=%i`
+> At least as of UDM controller version 6.1.71 you no longer need this
