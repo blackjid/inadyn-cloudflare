@@ -7,7 +7,10 @@ I hope this is a temporary solution as the version 2.6 of Inadyn already nativel
 
 ## Create and deploy the worker
 
-We'll use cloudflares wrangler cli to build and deploy the service worker
+We'll use cloudflares wrangler cli to build and deploy the service worker.
+
+> This software will run in cloudflare edge servers, and will expose an endpoint for 
+> the UDM built in support for dynamic dns. You can run this steps on your computer, it's not needed to ssh into the UDM.
 
 Install wrangler
 
