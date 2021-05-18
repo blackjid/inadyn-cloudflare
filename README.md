@@ -56,9 +56,7 @@ You need to add your account id to the provided `wrangler.toml` file. You can ge
 
     On the permission section, select
 
-    - ZONE: ZONE - Read
-    - ZONE: DNS  - Edit
-
+   ![image](https://user-images.githubusercontent.com/228037/118659879-b2b66f80-b7bb-11eb-8321-d9be6537a751.png)
 
     > Copy the API key. You will use it as *password* in the next step
 
@@ -71,6 +69,9 @@ Go to your unifi controller Dynamic Dns section and setup the following
 - `username`: the name of the zone where the record is defined. (e.g. `mydomain.com`)
 - `password`: a Cloudflare api token with `dns:edit` and `zone:read` permissions
 - `server`: the Cloudflare Worker DNS plus the path `dyndns.<worker-subdomain>.workers.dev/update?hostname=%h&ip=%i`
+
+![image](https://user-images.githubusercontent.com/228037/118659811-a3cfbd00-b7bb-11eb-8798-5a4a313c6188.png)
+
 
 > Note: you might need to escape an extra slash between the hostname of your worker and the path due to a bug in the controller ui.
 > `dyndns.<worker-subdomain>.workers.dev/\/update?hostname=%h&ip=%i`
