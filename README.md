@@ -1,44 +1,66 @@
 # Cloudflare Dynamic DNS backend for Inadyn
 
+This is a small application that exposes an *inadyn* compatible API and uses Cloudflare's API to update the IP of one of your DNS A records.
+
+[inadyn](https://github.com/troglobit/inadyn) is an open-source application that supports different dynamic DNS providers. It's used by the UDM/UDM-pro Unifi OS under the hood to update your public IP.
+
 ## Why?
 
-I have a Unifi Dream Machine and I want to update my home dns when my ip changes. The Unifi controller dynamic dns service doesn't support Cloudflare as a service.
-I hope this is a temporary solution as the version 2.6 of Inadyn already natively support cloudflare.
+I have an Unifi Dream Machine, and I want to update my home DNS when my IP changes. But the Unifi controller dynamic DNS service doesn't support Cloudflare as one of the providers.
+I hope this is a temporary solution as [version 2.6](https://github.com/troglobit/inadyn/releases/tag/v2.6) of Inadyn already natively support Cloudflare.
 
 ## Create and deploy the worker
 
-We'll use cloudflares wrangler cli to build and deploy the service worker.
+We'll use Cloudflare's wrangler CLI to build and deploy the service worker.
 
-> This software will run in cloudflare edge servers, and will expose an endpoint for 
-> the UDM built in support for dynamic dns. You can run this steps on your computer, it's not needed to ssh into the UDM.
+> You can run the following steps on your computer. You don't need to ssh into the UDM terminal.
 
-Install wrangler
+1. Install. [Wrangler Installation](https://github.com/cloudflare/wrangler#installation)
 
-```
-npm install -g @cloudflare/wrangler
-```
+    ```bash
+    # Install
+    npm install -g @cloudflare/wrangler
 
-Setup you account
+2. Config wrangler by following the instructions. You will need to create an API key with permissions to deploy a worker.
 
-```
-wrangler config
-```
+    ```bash
+    wrangler config
+    ```
 
-### Deploy the worker.
+   > TIP: Use the "Edit Cloudflare Workers" Template, choose "All accounts and the zone you will use.
+
+    Copy the API key, and paste it in the terminal to complete the command above.
+
+### Deploy the worker
 
 You need to add your account id to the provided `wrangler.toml` file. You can get it from the Cloudflare manage worker page (on the sidebar)
 
-Enable your workers subdomain
+1. Enable your workers subdomain. This is a subdomain on where the inadyn worker will be exposed.
 
-```
-wrangler subdomain <worker-subdomain>
-```
+    ```bash
+    wrangler subdomain <worker-subdomain>
+    ```
 
-Publish the worker
+2. Publish the worker
 
-```
-wrangler publish
-```
+    ```bash
+    $ wrangler publish
+    ✨  Built successfully, built project size is 12 KiB.
+    ✨  Successfully published your script to
+    https://dyndns.<worker-subdomain>.workers.dev
+    ```
+
+    > TIP: That hostname will be used on the next step on the Unifi UI
+
+3. Create another API token so the worker can update your records. Go to https://dash.cloudflare.com/profile/api-tokens and select "Create custom token"
+
+    On the permission section, select
+
+    - ZONE: ZONE - Read
+    - ZONE: DNS  - Edit
+
+
+    > Copy the API key. You will use it as *password* in the next step
 
 ## Setup Unifi controller
 
@@ -52,7 +74,7 @@ Go to your unifi controller Dynamic Dns section and setup the following
 
 > Note: you might need to escape an extra slash between the hostname of your worker and the path due to a bug in the controller ui.
 > `dyndns.<worker-subdomain>.workers.dev/\/update?hostname=%h&ip=%i`
-> At least as of UDM controller version 6.1.71 you no longer need this 
+> At least as of UDM controller version 6.1.71 you no longer need this
 
 ## Debugging
 
