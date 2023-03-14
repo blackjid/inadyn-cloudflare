@@ -15,11 +15,11 @@ We'll use Cloudflare's wrangler CLI to build and deploy the service worker.
 
 > You can run the following steps on your computer. You don't need to ssh into the UDM terminal.
 
-1. Install. [Wrangler Installation](https://github.com/cloudflare/wrangler#installation)
+1. Install. [Wrangler Installation](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
 
     ```bash
     # Install
-    npm install -g @cloudflare/wrangler
+    npm install -g /wrangler
 
 2. Config wrangler by following the instructions. You will need to create an API key with permissions to deploy a worker.
 
